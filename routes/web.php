@@ -12,5 +12,9 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    return 'Hello Cherry!';
+//    return $router->app->version();
 });
+
+
+$router->get('/brand', 'Brand\BrandController@show');
