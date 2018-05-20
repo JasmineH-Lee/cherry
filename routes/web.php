@@ -16,5 +16,10 @@ $router->get('/', function () use ($router) {
 //    return $router->app->version();
 });
 
-
-$router->get('/brand', 'Brand\BrandController@show');
+$router->group([
+    'prefix'    => 'brand',
+    'namespace' => 'Brand',
+], function ($router) {
+    $router->get('/', 'BrandController@index');
+    $router->get('/detail', 'BrandController@detail');
+});
