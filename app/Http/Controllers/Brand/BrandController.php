@@ -39,10 +39,13 @@ class BrandController extends Controller
 
             $list = ['founder_bg', 'brand_bg', 'brand_culture', 'brand_identify'];
             foreach ($list as $val) {
-                $infoList[] = [
-                    'field' => $val,
-                    'value' => $data->$val,
-                ];
+                if (!empty($data->$val)) {
+                    $infoList[] = [
+                        'mean'  => Brand::FIELDS_EXPLAIN[$val],
+                        'field' => $val,
+                        'value' => $data->$val,
+                    ];
+                }
             }
             $response['info_list'] = $infoList;
 

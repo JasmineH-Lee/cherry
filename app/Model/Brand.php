@@ -12,4 +12,11 @@ class Brand extends Model
      * @var string
      */
     protected $table = 't_brand';
+
+    const FIELDS_EXPLAIN = [
+        'founder_bg'     => '创始人背景',
+        'brand_bg'       => '品牌背景',
+        'brand_culture'  => '品牌文化',
+        'brand_identify' => '品牌辨识',
+    ];
 }
