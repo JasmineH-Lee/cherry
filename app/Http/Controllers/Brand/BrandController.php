@@ -21,12 +21,6 @@ class BrandController extends Controller
 
         $data = Brand::where(['id' => 1])->first();
 
-        $response = [
-            'code' => 0,
-            'message' => 'ok',
-            'data' => $data,
-        ];
-
-        return response()->json($response);
+        return response()->json($this->response($data));
     }
 }
