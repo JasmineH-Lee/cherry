@@ -19,8 +19,35 @@ class BrandController extends Controller
             'id' => 'required|int',
         ]);
 
-        $data = Brand::where(['id' => 1])->first();
+        $params = $request->only('id');
 
-        return response()->json($this->response($data));
+        $data = Brand::where(['id' => $params['id']])->first();
+
+        if (empty($data)) {
+            $response = new \stdClass();
+        } else {
+            $response = [
+                'id'        => $data->id,
+                'title'     => $data->title,
+                'name_en'   => $data->name_en,
+                'name_cn'   => $data->name_cn,
+                'founder'   => $data->founder,
+                'since'     => $data->since,
+                'icountryd' => $data->country,
+                'industry'  => $data->industry,
+            ];
+
+            $list = ['founder_bg', 'brand_bg', 'brand_culture', 'brand_identify'];
+            foreach ($list as $val) {
+                $infoList[] = [
+                    'field' => $val,
+                    'value' => $data->$val,
+                ];
+            }
+            $response['info_list'] = $infoList;
+
+        }
+
+        return response()->json($this->response($response));
     }
 }
