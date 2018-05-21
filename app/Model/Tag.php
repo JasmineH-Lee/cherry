@@ -5,13 +5,13 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Brand extends Model
+class Tag extends Model
 {
     /**
      * The table associated with the model.
      * @var string
      */
-    protected $table = 't_brand';
+    protected $table = 't_tag';
 
     public $timestamps = false;
 

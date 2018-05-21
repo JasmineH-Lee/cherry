@@ -23,3 +23,14 @@ $router->group([
     $router->get('/', 'BrandController@index');
     $router->get('/detail', 'BrandController@detail');
 });
+
+$router->group([
+    'prefix'    => 'user',
+    'namespace' => 'User',
+], function ($router) {
+    $router->get('/brand', 'UserController@brand');
+    $router->get('/brand/map', 'UserController@mapBrand');
+
+    $router->get('/article', 'UserController@article');
+    $router->get('/article/map', 'UserController@mapArticle');
+});
