@@ -29,8 +29,10 @@ $router->group([
     'namespace' => 'User',
 ], function ($router) {
     $router->get('/brand', 'UserController@brand');
-    $router->get('/brand/map', 'UserController@mapBrand');
+    $router->get('/brand/_like', 'UserController@likeBrand');
+    $router->get('/brand/_unlike', 'UserController@unlikeBrand');
 
     $router->get('/article', 'UserController@article');
-    $router->get('/article/map', 'UserController@mapArticle');
+    $router->get('/article/_like', 'UserController@likeArticle');
+    $router->get('/article/_unlike', 'UserController@unlikeArticle');
 });

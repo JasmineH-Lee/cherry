@@ -20,6 +20,9 @@ class MapTag extends Model
     const TYPE_BRAND   = 1;
     const TYPE_ARTICLE = 2;
 
+    const STATUS_DELETED = -1;
+    const STATUS_NORMAL = 1;
+
     const FIELDS_EXPLAIN = [
 
     ];

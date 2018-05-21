@@ -29,7 +29,8 @@ class UserController extends Controller
             }
         }
 
-        $params['type'] = MapUser::TYPE_BRAND;
+        $params['type']   = MapUser::TYPE_BRAND;
+        $params['status'] = MapUser::STATUS_NORMAL;
 
         $response = MapUser::where($params)
             ->join('t_brand', 'attr_id', '=', 't_brand.id')
@@ -59,7 +60,8 @@ class UserController extends Controller
             }
         }
 
-        $params['type'] = MapUser::TYPE_ARTICLE;
+        $params['type']   = MapUser::TYPE_ARTICLE;
+        $params['status'] = MapUser::STATUS_NORMAL;
 
         $response = MapUser::where($params)
             ->join('t_article', 'attr_id', '=', 't_article.id')
@@ -76,7 +78,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function mapArticle(Request $request)
+    public function likeArticle(Request $request)
     {
         $this->validate($request, [
             'user_id' => 'required|int',
@@ -90,13 +92,49 @@ class UserController extends Controller
             }
         }
 
-        $params['type'] = MapUser::TYPE_ARTICLE;
+        $params['type']   = MapUser::TYPE_ARTICLE;
+        $params['status'] = MapUser::STATUS_NORMAL;
 
         $check = MapUser::where($params)->first();
         if ($check) {
             $response = $check;
         } else {
             $response = MapUser::create($params);
+        }
+
+        return response()->json($this->response($response));
+    }
+
+    /**
+     * 取消文章收藏
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function unlikeArticle(Request $request)
+    {
+        $this->validate($request, [
+            'user_id' => 'required|int',
+            'attr_id' => 'required|int',
+        ]);
+
+        $params = [];
+        foreach ($request->only('user_id', 'attr_id') as $key => $val) {
+            if (!is_null($val)) {
+                $params[$key] = $val;
+            }
+        }
+
+        $params['type']   = MapUser::TYPE_ARTICLE;
+        $params['status'] = MapUser::STATUS_NORMAL;
+
+        $check = MapUser::where($params)->first();
+        if ($check) {
+            $response = MapUser::where($params)->update(['status' => MapUser::STATUS_DELETED]);
+        } else {
+            $response = 1;
         }
 
         return response()->json($this->response($response));
@@ -110,7 +148,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function mapBrand(Request $request)
+    public function likeBrand(Request $request)
     {
         $this->validate($request, [
             'user_id' => 'required|int',
@@ -124,13 +162,49 @@ class UserController extends Controller
             }
         }
 
-        $params['type'] = MapUser::TYPE_BRAND;
+        $params['type']   = MapUser::TYPE_BRAND;
+        $params['status'] = MapUser::STATUS_NORMAL;
 
         $check = MapUser::where($params)->first();
         if ($check) {
             $response = $check;
         } else {
             $response = MapUser::create($params);
+        }
+
+        return response()->json($this->response($response));
+    }
+
+    /**
+     * 取消品牌收藏
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function unlikeBrand(Request $request)
+    {
+        $this->validate($request, [
+            'user_id' => 'required|int',
+            'attr_id' => 'required|int',
+        ]);
+
+        $params = [];
+        foreach ($request->only('user_id', 'attr_id') as $key => $val) {
+            if (!is_null($val)) {
+                $params[$key] = $val;
+            }
+        }
+
+        $params['type']   = MapUser::TYPE_BRAND;
+        $params['status'] = MapUser::STATUS_NORMAL;
+
+        $check = MapUser::where($params)->first();
+        if ($check) {
+            $response = MapUser::where($params)->update(['status' => MapUser::STATUS_DELETED]);
+        } else {
+            $response = 1;
         }
 
         return response()->json($this->response($response));
