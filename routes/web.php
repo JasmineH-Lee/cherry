@@ -29,10 +29,10 @@ $router->group([
     'namespace' => 'User',
 ], function ($router) {
     $router->get('/brand', 'UserController@brand');
-    $router->get('/brand/_like', 'UserController@likeBrand');
-    $router->get('/brand/_unlike', 'UserController@unlikeBrand');
+    $router->post('/brand/_like', 'UserController@likeBrand');
+    $router->post('/brand/_unlike', 'UserController@unlikeBrand');
 
     $router->get('/article', 'UserController@article');
-    $router->get('/article/_like', 'UserController@likeArticle');
-    $router->get('/article/_unlike', 'UserController@unlikeArticle');
+    $router->post('/article/_like', 'UserController@likeArticle');
+    $router->post('/article/_unlike', 'UserController@unlikeArticle');
 });
