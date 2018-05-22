@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Brand;
 
 use App\Model\Brand;
+use App\Model\MapUser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -72,6 +73,8 @@ class BrandController extends Controller
     }
 
     /**
+     * 品牌详情
+     *
      * @param Request $request
      *
      * @return \Illuminate\Http\JsonResponse
@@ -90,15 +93,25 @@ class BrandController extends Controller
         if (empty($data)) {
             $response = new \stdClass();
         } else {
+
+            $like = MapUser::where([
+                'user_id' => 1,
+                'attr_id' => $data->id,
+                'type'    => MapUser::TYPE_BRAND,
+            ])->count();
+
             $response = [
-                'id'        => $data->id,
-                'title'     => $data->title,
-                'name_en'   => $data->name_en,
-                'name_cn'   => $data->name_cn,
-                'founder'   => $data->founder,
-                'since'     => $data->since,
-                'icountryd' => $data->country,
-                'industry'  => $data->industry,
+                'id'       => $data->id,
+                'title'    => $data->title,
+                'name_en'  => $data->name_en,
+                'name_cn'  => $data->name_cn,
+                'founder'  => $data->founder,
+                'since'    => $data->since,
+                'country'  => $data->country,
+                'industry' => $data->industry,
+                'logo'     => $data->logo,
+                'bg_image' => $data->bg_image,
+                'is_like'  => $like,
             ];
 
             $list = ['founder_bg', 'brand_bg', 'brand_culture', 'brand_identify'];
@@ -137,7 +150,8 @@ class BrandController extends Controller
             'since'          => 'string',
             'country'        => 'string',
             'industry'       => 'string',
-            'image'          => 'string',
+            'logo'           => 'string',
+            'bg_image'       => 'string',
             'founder_bg'     => 'string',
             'brand_bg'       => 'string',
             'brand_culture'  => 'string',
@@ -176,7 +190,8 @@ class BrandController extends Controller
             'since'          => 'string',
             'country'        => 'string',
             'industry'       => 'string',
-            'image'          => 'string',
+            'logo'           => 'string',
+            'bg_image'       => 'string',
             'founder_bg'     => 'string',
             'brand_bg'       => 'string',
             'brand_culture'  => 'string',

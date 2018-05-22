@@ -10,6 +10,7 @@ class TagController extends Controller
 {
 
     /**
+     * 标签列表
      * @param Request $request
      *
      * @return \Illuminate\Http\JsonResponse
@@ -32,6 +33,13 @@ class TagController extends Controller
         return response()->json($this->response($response));
     }
 
+    /**
+     * 创建标签
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function create(Request $request)
     {
         $this->validate($request, [
