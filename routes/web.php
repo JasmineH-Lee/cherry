@@ -21,7 +21,26 @@ $router->group([
     'namespace' => 'Brand',
 ], function ($router) {
     $router->get('/', 'BrandController@index');
+    $router->get('/menu', 'BrandController@menu');
     $router->get('/detail', 'BrandController@detail');
+    $router->post('/_new', 'BrandController@create');
+    $router->post('/_edit', 'BrandController@update');
+});
+
+$router->group([
+    'prefix'    => 'tag',
+    'namespace' => 'Tag',
+], function ($router) {
+    $router->get('/', 'TagController@index');
+    $router->post('/_new', 'TagController@create');
+});
+
+$router->group([
+    'prefix'    => 'article',
+    'namespace' => 'Article',
+], function ($router) {
+    $router->get('/', 'ArticleController@index');
+    $router->post('/_new', 'ArticleController@create');
 });
 
 $router->group([

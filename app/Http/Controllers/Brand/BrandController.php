@@ -10,12 +10,45 @@ class BrandController extends Controller
 {
 
     /**
+     * 品牌列表
+     *
      * @param Request $request
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Validation\ValidationException
      */
     public function index(Request $request)
+    {
+        $this->validate($request, [
+            'title'   => 'string',
+            'name_en' => 'string',
+            'name_cn' => 'string',
+            'founder' => 'string',
+        ]);
+
+        $params = [];
+        foreach ($request->only('title', 'name_en', 'name_cn', 'founder') as $key => $val) {
+            $params[$key] = $val;
+        }
+
+        $response = Brand::where(function ($query) use ($params) {
+            foreach ($params as $field => $value) {
+                $query->where($field, 'like', '%' . $value . '%');
+            }
+        })->get();
+
+        return response()->json($this->response($response));
+    }
+
+    /**
+     * 品牌菜单
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function menu(Request $request)
     {
         $this->validate($request, [
             'name_en' => 'string',
@@ -27,7 +60,11 @@ class BrandController extends Controller
             $params[$key] = $val;
         }
 
-        $response = Brand::where($params)->select('name_en', 'name_cn')->get();
+        $response = Brand::where(function ($query) use ($params) {
+            foreach ($params as $field => $value) {
+                $query->where($field, 'like', '%' . $value . '%');
+            }
+        })->select('name_en', 'name_cn')->get();
 
         $response = $this->letterSort($response, 'name_en');
 
@@ -81,6 +118,94 @@ class BrandController extends Controller
         return response()->json($this->response($response));
     }
 
+    /**
+     * 创建品牌
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function create(Request $request)
+    {
+
+        $rules = [
+            'title'          => 'string',
+            'name_en'        => 'string',
+            'name_cn'        => 'string',
+            'founder'        => 'string',
+            'since'          => 'string',
+            'country'        => 'string',
+            'industry'       => 'string',
+            'image'          => 'string',
+            'founder_bg'     => 'string',
+            'brand_bg'       => 'string',
+            'brand_culture'  => 'string',
+            'brand_identify' => 'string',
+        ];
+
+        $this->validate($request, $rules);
+
+        $params = [];
+        foreach ($request->only(array_keys($rules)) as $key => $val) {
+            $params[$key] = $val ?? '';
+        }
+
+        $response = Brand::create($params);
+
+        return response()->json($this->response($response));
+
+    }
+
+    /**
+     * 更新品牌
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function update(Request $request)
+    {
+        $rules = [
+            'id'             => 'required|int|exists:t_brand',
+            'title'          => 'string',
+            'name_en'        => 'string',
+            'name_cn'        => 'string',
+            'founder'        => 'string',
+            'since'          => 'string',
+            'country'        => 'string',
+            'industry'       => 'string',
+            'image'          => 'string',
+            'founder_bg'     => 'string',
+            'brand_bg'       => 'string',
+            'brand_culture'  => 'string',
+            'brand_identify' => 'string',
+        ];
+
+        $this->validate($request, $rules);
+
+        $params = [];
+        foreach ($request->only(array_keys($rules)) as $key => $val) {
+            $params[$key] = $val ?? '';
+        }
+
+        $id = $params['id'];
+        unset($params['id']);
+
+        $response = Brand::where(['id' => $id])->update($params);
+
+        return response()->json($this->response($response));
+    }
+
+    /**
+     * 字母排序
+     *
+     * @param $list
+     * @param $field
+     *
+     * @return array
+     */
     public function letterSort($list, $field)
     {
         $ordered = [];
