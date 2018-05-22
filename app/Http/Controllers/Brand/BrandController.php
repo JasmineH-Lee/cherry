@@ -64,7 +64,7 @@ class BrandController extends Controller
             foreach ($params as $field => $value) {
                 $query->where($field, 'like', '%' . $value . '%');
             }
-        })->select('name_en', 'name_cn')->get();
+        })->select('id', 'name_en', 'name_cn')->get();
 
         $response = $this->letterSort($response, 'name_en');
 
