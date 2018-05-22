@@ -98,6 +98,7 @@ class BrandController extends Controller
                 'user_id' => 1,
                 'attr_id' => $data->id,
                 'type'    => MapUser::TYPE_BRAND,
+                'status'  => MapUser::STATUS_NORMAL,
             ])->count();
 
             $response = [
