@@ -16,6 +16,24 @@ $router->get('/', function () use ($router) {
 //    return $router->app->version();
 });
 
+$router->get('/date', function () use ($router) {
+    $date   = '';
+    $numMap = ['〇', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
+    $month  = date('m');
+    if (0 != $month[0]) {
+        $date .= $numMap[$month[0]] . '十';
+    }
+    $date .= $numMap[$month[1]] . '月';
+    $day  = date('d');
+    if (0 != $day[0]) {
+        $date .= $numMap[$day[0]] . '十';
+    }
+    $date    .= $numMap[$day[1]] . '日';
+    $weekMap = ['天', '一', '二', '三', '四', '五', '六'];
+    $week    = '星期' . $weekMap[date('w')];
+    return compact('date', 'week');
+});
+
 $router->group([
     'prefix'    => 'brand',
     'namespace' => 'Brand',
