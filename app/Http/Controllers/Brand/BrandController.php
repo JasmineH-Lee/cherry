@@ -38,6 +38,15 @@ class BrandController extends Controller
             }
         })->get();
 
+        foreach ($response as &$item) {
+            $item['is_like'] = MapUser::where([
+                'user_id' => 1,
+                'attr_id' => $item['id'],
+                'type'    => MapUser::TYPE_BRAND,
+                'status'  => MapUser::STATUS_NORMAL,
+            ])->count();
+        }
+
         return response()->json($this->response($response));
     }
 
