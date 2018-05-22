@@ -41,6 +41,7 @@ $router->group([
 ], function ($router) {
     $router->get('/', 'ArticleController@index');
     $router->post('/_new', 'ArticleController@create');
+    $router->post('/_edit', 'ArticleController@update');
 });
 
 $router->group([

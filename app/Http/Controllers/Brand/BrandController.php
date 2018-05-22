@@ -36,7 +36,7 @@ class BrandController extends Controller
             foreach ($params as $field => $value) {
                 $query->where($field, 'like', '%' . $value . '%');
             }
-        })->get();
+        })->orderBy('ctime', 'desc')->get();
 
         foreach ($response as &$item) {
             $item['is_like'] = MapUser::where([
